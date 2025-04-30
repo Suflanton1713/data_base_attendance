@@ -68,3 +68,12 @@ INSERT INTO Factura (id_factura, fecha_factura, id_cliente, id_mesero, id_mesa, 
 (8, '2025-04-14', 8, 3, 8, 6, 8),  -- Sofia Ramírez, Lechona, Refresco de cola
 (9, '2025-04-15', 9, 4, 9, 8, 9),  -- Manuel Pedroza González, Tamales, Cerveza Club Colombia
 (10, '2025-04-15', 10, 5, 10, 10, 10);  -- Paola Muñoz, Arroz con pollo, Jugo de mora
+
+--Registros extras para hacer más visual la consulta
+INSERT INTO Factura (
+    id_factura, fecha_factura, id_cliente, id_mesero, id_mesa, id_platillo, id_bebida
+)
+VALUES 
+    (11, '2024-04-30', 1, 2, 4, 3, 2),
+    (12, '2024-04-30', 3, 1, 5, 3, 4);
+
