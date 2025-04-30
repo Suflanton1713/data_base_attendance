@@ -1,1 +1,72 @@
 
+-- Relación CLIENTE:
+CREATE TABLE cliente (
+    cedula BIGINT,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    correo VARCHAR(70) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    CONSTRAINT pk_cliente PRIMARY KEY (cedula),
+    CHECK (LENGTH(nombre) > 0),
+    CHECK (LENGTH(apellido) > 0),
+    CHECK (LENGTH(telefono) > 0 AND LENGTH(telefono) <= 15),
+    CHECK (correo LIKE '%@%.%' AND LENGTH(correo) <= 70)
+);
+
+-- Tabla SUCURSAL:
+CREATE TABLE sucursal (
+    su_id VARCHAR(100) PRIMARY KEY,
+    nombre VARCHAR(70) NOT NULL,
+    ciudad VARCHAR(50) NOT NULL,
+    direccion VARCHAR(150) NOT NULL,
+    CHECK (LENGTH(su_id) > 0 AND LENGTH(su_id) <= 100),
+    CHECK (LENGTH(nombre) > 0 AND LENGTH(nombre) <= 70),
+    CHECK (LENGTH(ciudad) > 0 AND LENGTH(ciudad) <= 50),
+    CHECK (LENGTH(direccion) > 0 AND LENGTH(direccion) <= 150)
+);
+
+-- Tabla VEHICULO:
+CREATE TABLE vehiculo (
+    placa VARCHAR(7),
+    marca VARCHAR(50) NOT NULL,
+    ciudad VARCHAR(50) NOT NULL,
+    modelo INT NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
+    sucursal_id VARCHAR(100) DEFAULT NULL,
+    CONSTRAINT pk_placa PRIMARY KEY (placa),
+    CONSTRAINT fk_sucursal FOREIGN KEY (sucursal_id) REFERENCES sucursal(su_id) 
+		ON UPDATE CASCADE 
+		ON DELETE SET NULL,
+    CHECK (modelo BETWEEN 2000 AND 2025),
+    CHECK (LENGTH(ciudad) > 0)
+);
+
+-- Tabla ALQUILER:
+CREATE TABLE alquiler (
+    al_id SERIAL PRIMARY KEY,
+    cc_cliente BIGINT NOT NULL,
+    placa_v VARCHAR(7) NOT NULL,
+    fecha_inicio DATE NOT NULL DEFAULT CURRENT_DATE,
+    fecha_fin DATE NOT NULL,
+    CONSTRAINT fk_cliente FOREIGN KEY (cc_cliente) 
+        REFERENCES cliente(cedula) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_vehiculo FOREIGN KEY (placa_v) 
+        REFERENCES vehiculo(placa) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
+);
+
+-- Tabla PAGO:
+CREATE TABLE pago (
+    pa_id SERIAL PRIMARY KEY,
+    alquiler_id INT,
+    monto NUMERIC(10, 2) NOT NULL,
+    fecha_pago TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (monto > 0),
+    CHECK (fecha_pago <= CURRENT_TIMESTAMP),
+    CONSTRAINT fk_alquiler FOREIGN KEY (alquiler_id) 
+        REFERENCES alquiler(al_id) 
+        ON DELETE SET NULL
+);
