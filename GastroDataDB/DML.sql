@@ -77,3 +77,18 @@ VALUES
     (11, '2024-04-30', 1, 2, 4, 3, 2),
     (12, '2024-04-30', 3, 1, 5, 3, 4);
 
+INSERT INTO Platillo (id_platillo, nombre, importe) VALUES
+    (11, 'Ajiaco santafereño', 500000),
+    (12, 'Sancocho trifasico', 1000000);
+
+INSERT INTO Bebida (id_bebida, nombre, importe) VALUES
+    (11, 'Café colombiano', 80000);
+
+INSERT INTO Factura (
+    id_factura, fecha_factura, id_cliente, id_mesero, id_mesa, id_platillo, id_bebida
+) VALUES
+    (16, '2024-05-02', 1, 1, 3, 11, 1),  -- Alejandro Quintero - Cazuela de mariscos
+    (17, '2024-05-02', 4, 2, 2, 12, 11),  -- Manuel Pedroza Gonzalez - Tamal tolimense
+    (18, '2024-05-02', 2, 3, 5, 11, 11);  -- Maria Juliana Saavedra - Arroz a la marinera
+
+
